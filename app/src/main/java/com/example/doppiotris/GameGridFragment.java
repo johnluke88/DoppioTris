@@ -121,7 +121,6 @@ public class GameGridFragment extends Fragment implements View.OnClickListener{
             throw new ClassCastException(context.toString() + "Non può esserci il cast a OnButtonPressedListener");
         }
     }
-/*
     public boolean checkForWin() {
         String[][] cells = new String [3][3];
         for(int i = 0; i< 3; i++) {
@@ -148,7 +147,7 @@ public class GameGridFragment extends Fragment implements View.OnClickListener{
 
         return false;
     }
-
+    /*
     public void draw() {
         Toast.makeText(getActivity().getApplicationContext(), "Pareggio!",  Toast.LENGTH_LONG).show();
         for(int i = 0; i< 3; i++) {
@@ -157,6 +156,5 @@ public class GameGridFragment extends Fragment implements View.OnClickListener{
             }
         }
         roundCount = 0;
-    }
-*/
+    }*/
 }

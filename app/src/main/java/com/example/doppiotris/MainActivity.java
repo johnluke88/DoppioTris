@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements GameGridFragment.OnButtonPressedListener {
 
     private Button btn;
+    private int roundCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,12 +34,24 @@ public class MainActivity extends AppCompatActivity implements GameGridFragment.
             btn = (Button) v.findViewById(id);
             btn.setTag("premuto");
             if (btn.getTag() == null || btn.getTag().toString().equals("premuto")) {
+                roundCount++;
                 btn.setText(name);
-                player.setTurn(!player.isTurn());
-
-                GameGridFragment grid2 = (GameGridFragment) getSupportFragmentManager().findFragmentById(R.id.player2);
-                Player player2 = grid2.getPlayer();
-                player2.setTurn(!player2.isTurn());
+                // Prendo riferimento alla griglia del primo giocatore
+                GameGridFragment grid1 = (GameGridFragment) getSupportFragmentManager().findFragmentById(R.id.player1);
+                if (grid1.checkForWin()) {
+                    Toast.makeText(getApplicationContext(), "IL Giocatore X ha vinto!!", Toast.LENGTH_LONG).show();
+                    onReset();
+                }
+                else if (roundCount == 9) {
+                    Toast.makeText(getApplicationContext(), "PAREGGIO!!", Toast.LENGTH_LONG).show();
+                    onReset();
+                }
+                else {
+                    player.setTurn(!player.isTurn());
+                    GameGridFragment grid2 = (GameGridFragment) getSupportFragmentManager().findFragmentById(R.id.player2);
+                    Player player2 = grid2.getPlayer();
+                    player2.setTurn(!player2.isTurn());
+                }
             }
 
         } else if (name.equalsIgnoreCase("O")) {
@@ -45,18 +59,30 @@ public class MainActivity extends AppCompatActivity implements GameGridFragment.
             btn = (Button) v.findViewById(id);
             btn.setTag("premuto");
             if (btn.getTag() == null || btn.getTag().toString().equals("premuto")) {
+                roundCount++;
                 btn.setText(name);
-                player.setTurn(!player.isTurn());
-
-                GameGridFragment grid1 = (GameGridFragment) getSupportFragmentManager().findFragmentById(R.id.player1);
-                Player player1 = grid1.getPlayer();
-                player1.setTurn(!player1.isTurn());
+                // Prendo riferimento alla griglia del primo giocatore
+                GameGridFragment grid2 = (GameGridFragment) getSupportFragmentManager().findFragmentById(R.id.player2);
+                if (grid2.checkForWin()) {
+                    Toast.makeText(getApplicationContext(), "IL Giocatore O ha vinto!!", Toast.LENGTH_LONG).show();
+                    onReset();
+                }
+                else if (roundCount == 9) {
+                    Toast.makeText(getApplicationContext(), "PAREGGIO!!", Toast.LENGTH_LONG).show();
+                    onReset();
+                }
+                else {
+                    player.setTurn(!player.isTurn());
+                    GameGridFragment grid1 = (GameGridFragment) getSupportFragmentManager().findFragmentById(R.id.player1);
+                    Player player1 = grid1.getPlayer();
+                    player1.setTurn(!player1.isTurn());
+                }
             }
         }
 
     }
 
-    public void onDraw() {
+    public void onReset() {
         View view = findViewById(R.id.player1);
 
         ArrayList<View> allBtn = view.getTouchables();
